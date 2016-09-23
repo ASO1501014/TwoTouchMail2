@@ -21,38 +21,37 @@ public class PickUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pick_up);
         Button btnSend = (Button) this.findViewById(R.id.button);
 
-        btnSend.setOnClickListener(new View.OnClickListener(){
+        btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioGroup rgPlae = (RadioGroup)findViewById(R.id.rg_place);
-                int checkId = rgPlae.getCheckedRadioButtonId();
-                String strPlace = ((RadioButton)findViewById(checkId)).getText().toString();
-
-                EditText edit01 = (EditText)findViewById(R.id.editText);
+                RadioGroup rgPlace = (RadioGroup) findViewById(R.id.rg_place);
+                int checkedId = rgPlace.getCheckedRadioButtonId();
+                String strPlace = ((RadioButton) findViewById(checkedId)).getText().toString();
+                EditText edit01 = (EditText) findViewById(R.id.editText);
                 String title = edit01.getText().toString();
 
                 Resources res = getResources();
+                Random rand = new Random();
+                int r = rand.nextInt(3);
 
-                int r = (int) ((Math.random()*3)+1);
+                String strmail;
 
-                Uri uri ;
-
-                if(r==1){
-                    uri = Uri.parse("mailto"+getString(R.string.mail_to1).toString());
-                }else if(r==2){
-                    uri = Uri.parse("mailto"+getString(R.string.mail_to2).toString());
-                }else if(r==3) {
-                    uri = Uri.parse("mailto" + getString(R.string.mail_to3).toString());
+                if(r == 0) {
+                    strmail = res.getString(R.string.mail_to1);
+                } else if(r == 1) {
+                    strmail = res.getString(R.string.mail_to2);
+                }else{
+                    strmail = res.getString(R.string.mail_to3);
                 }
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
 
+                Uri uri = Uri.parse("mailto:" + strmail.toString());
 
+                Intent intent = new Intent(Intent.ACTION_SENDTO,uri);
                 intent.putExtra(Intent.EXTRA_SUBJECT,title);
-                intent.putExtra(intent.EXTRA_TEXT,strPlace + "に迎えに来て");
+                intent.putExtra(Intent.EXTRA_TEXT, strPlace + "に迎えにきて");
                 startActivity(intent);
-
-
             }
         });
+
     }
 }
